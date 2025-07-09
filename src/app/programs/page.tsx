@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, Suspense } from 'react';
 import { MainLayout } from '@/components/shared/MainLayout';
 import { ProgramCard } from '@/components/programs/ProgramCard';
 import { ProgramFilter } from '@/components/programs/ProgramFilter';
@@ -14,7 +14,7 @@ import { getAllPrograms } from '@/actions/programActions';
 
 const ITEMS_PER_PAGE = 6;
 
-export default function ProgramsPage() {
+function ProgramsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -144,5 +144,13 @@ export default function ProgramsPage() {
         </div>
       </div>
     </MainLayout>
+  );
+}
+
+export default function ProgramsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProgramsPageContent />
+    </Suspense>
   );
 }
